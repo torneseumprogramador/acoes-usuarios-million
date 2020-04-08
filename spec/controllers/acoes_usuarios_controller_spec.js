@@ -41,5 +41,19 @@ describe("AcoesUsuariosController", () =>{
             const response = await request.post('/acoes-usuarios.json').set('token',TOKEN).send(body)
             expect(response.status).toBe(201);
             done();
-        })
-    })
+        });
+      });
+
+
+     describe('GET/acoes-usuarios.json - Deve Buscar  registros cadastrados',() =>{
+      
+      it('Deve retornar o Statuscode 200 ', async(done) =>{
+        const response = await request.get('/acoes-usuarios.json').set('token',TOKEN);
+        expect(response.status).toBe(200);
+        done();
+
+      });
+
+     });
+
+    
