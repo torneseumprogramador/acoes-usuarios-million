@@ -1,6 +1,6 @@
 const mongoose = require('../../db/conexao');
 
-const AcoesUsuarios = mongoose.model('acoes_usuarios',{
+const AcoesUsuario = mongoose.model('acoes_usuario',{
 
 codigo_usuario:{type: Number,
                required:true,
@@ -17,4 +17,4 @@ valor_investido:{type:Number,
                 }
 });
 
-module.exports = AcoesUsuarios
+module.exports = AcoesUsuario
