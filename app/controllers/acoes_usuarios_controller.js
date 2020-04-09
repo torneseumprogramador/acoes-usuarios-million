@@ -30,6 +30,28 @@ const AcoesUsuariosController = {
         }
     },
 
+    update: async(req,res, next) => {
+        if(req.headers.token == TOKEN){
+            try{
+
+                await AcoesUsuario.findOneAndUpdate({_id:  req.params._id}, 
+                    {
+                        codigo_usuario: req.body.codigo_usuario,
+                        codigo_acao: req.body.codigo_acao,
+                        valor_investido: req.body.valor_investido,
+                        percentual: req.body.percentual
+                    });
+                return res.status(200).send("Açao atualizado com sucesso!")
+
+            }catch(err){
+                return res.status(401).send('Erro ao atualizar');
+            }
+        }
+        else {
+            return res.status(401).send('Acesso negado');
+        }
+    },
+
     valor_investido: async(req, res, next) => {
         if(req.headers.token == TOKEN){
             const {codigo_usuario, codigo_acao} = req.body;

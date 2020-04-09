@@ -52,4 +52,27 @@ describe("AcoesUsuariosController", () =>{
       });
      });
 
+
+     describe('PUT/acoes-usuarios.json - Deve atualizar registro ',() =>{
+      it('Deve retornar o Statuscode 200 ', async(done) =>{
+
+        const acao_usuario = await AcoesUsuario.create({
+          codigo_usuario: 1,
+          codigo_acao: 'natu3',
+          valor_investido: 12300,
+          percentual: 3.1
+        });
+
+        body = {
+          codigo_usuario: 1,
+          codigo_acao: 'natu4',
+          valor_investido: 6200
+        }
+
+        const response = await request.put(`/acoes-usuarios/${acao_usuario._id}.json`).set('token',TOKEN).send(body);
+        expect(response.status).toBe(200);
+        done();
+      });
+     });
+
     
