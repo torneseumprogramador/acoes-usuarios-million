@@ -1,4 +1,4 @@
-const AcoesUsuarios = require('../models/acoes_usuarios');
+const AcoesUsuarios = require('../models/acao_usuario');
 const TOKEN="87uj99882320of"
 
 const AcoesUsuariosController = {
@@ -27,7 +27,23 @@ const AcoesUsuariosController = {
         }else{
             res.status(401).send(`Acesso negado, token inválido`)
         }
-    }
+    },
+
+    valor_investido: async(req, res, next) =>{
+        if(req.headers.token == TOKEN){
+            const {codigo_usuario, codigo_acao} = req.body;
+            try{
+                const retorno = await AcoesUsuarios.valorInvestidoPorAcao(codigo_usuario, codigo_acao);
+                res.status(200).send({total: retorno.total, acao: retorno.acao});
+            }
+            catch(err){
+                res.status(401).send(`Erro:${err}`);
+            }
+        }else{
+            res.status(401).send(`Acesso negado, token inválido`)
+        }
+    },
+
 }
 
 module.exports = AcoesUsuariosController;
