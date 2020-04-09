@@ -30,6 +30,25 @@ const AcoesUsuariosController = {
         }
     },
 
+    comprar: async(req,res,next) =>{
+        if(req.headers.token == TOKEN){
+            try{
+                acao = await AcoesUsuario.comprar({
+                codigo_usuario:req.body.codigo_usuario,
+                codigo_acao: req.body.codigo_acao,
+                valor_investido: req.body.valor_investido,
+                percentual: req.body.percentual
+                });
+                res.status(201).send(acao);
+            }
+            catch(err){
+                res.status(401).send(`Erro:${err}`);
+            }
+        }else{
+            res.status(401).send(`Acesso negado, token inválido`);
+        }
+    },
+
     update: async(req,res, next) => {
         if(req.headers.token == TOKEN){
             try{

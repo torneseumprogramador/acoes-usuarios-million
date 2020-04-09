@@ -2,11 +2,8 @@ const mongoose = require('../../db/conexao');
 
 const AcoesUsuario = mongoose.model('acoes_usuarios',{
   codigo_usuario: {
-    type: Number,
-    required:true,
-    validate:{
-      validator:Number.isInteger
-    } 
+    type: String,
+    required:true
   },
 
   codigo_acao: {
@@ -31,6 +28,22 @@ const AcoesUsuario = mongoose.model('acoes_usuarios',{
     immutable: true
   }          
 });
+
+AcoesUsuario.comprar = async(codigo_usuario, codigo_acao, valor_investido, percentual) => {
+  try{
+    let acao = await AcoesUsuario.create({
+      codigo_usuario:codigo_usuario,
+      codigo_acao: codigo_acao,
+      valor_investido: valor_investido,
+      percentual: percentual
+      });
+      return acao;
+  }
+  catch(err){
+    return err;
+  }
+    
+}
 
 AcoesUsuario.calculaValorInvestido = async() => {
   console.log("Alterando percentual de ações");
