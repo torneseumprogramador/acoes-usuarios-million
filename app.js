@@ -3,11 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cron = require("node-cron");
 
 var indexRouter = require('./routes/index');
-
+var AcoesUsuario = require('./app/models/acoes_usuario');
 
 var app = express();
+
+cron.schedule("*/5 * * * *", () => {
+  AcoesUsuario.calculaValorInvestido();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app/views'));
