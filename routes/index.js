@@ -11,5 +11,6 @@ router.post("/acoes-usuarios.json",AcoesUsuariosController.create)
 router.post("/acoes-usuarios/comprar.json",AcoesUsuariosController.comprar)
 router.post("/acoes-usuarios/valor_investido.json",AcoesUsuariosController.valor_investido)
 router.put("/acoes-usuarios/:_id.json",AcoesUsuariosController.update)
+router.delete("/acoes-usuarios/:_id.json",AcoesUsuariosController.delete)
 
 module.exports = router;

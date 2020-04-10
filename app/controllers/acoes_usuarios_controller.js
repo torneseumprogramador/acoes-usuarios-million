@@ -85,6 +85,21 @@ const AcoesUsuariosController = {
             res.status(401).send(`Acesso negado, token inválido`);
         }
     },
+    delete: async(req, res, next) => {
+        if(req.headers.token == TOKEN){
+            
+            try{
+                const retorno = await AcoesUsuario.findByIdAndDelete(req.params._id)
+                res.status(200).send("Usuario deletado");
+            }
+            catch(err){
+                res.status(401).send(`Erro ao deletar`);
+            }
+        }else{
+            res.status(401).send("Token invalido");
+        }
+
+    }
 
 }
 

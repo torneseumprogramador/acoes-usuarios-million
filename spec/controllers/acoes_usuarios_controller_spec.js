@@ -1,4 +1,4 @@
-const supertest = require('supertest');
+ const supertest = require('supertest');
 const  AcoesUsuario = require('../../app/models/acoes_usuario');
 const app = require('../../app.js');
 const request = supertest(app);
@@ -73,6 +73,21 @@ describe("AcoesUsuariosController", () =>{
         expect(response.status).toBe(200);
         done();
       });
+    });
+
+      describe('DELETE/acoes-usuarios.json - Deve deletar registro ',() =>{
+      it('Deve retornar o Statuscode 200 ', async(done) =>{
+
+        const acao_usuario = await AcoesUsuario.create({
+          codigo_usuario: 4,
+          codigo_acao:"car",
+          valor_investido: 8000,
+          percentual: 20
+        })  
+        const response = await request.delete(`/acoes-usuarios/${acao_usuario._id}.json`).set('token',TOKEN);
+        expect(response.status).toBe(200);
+        done();
      });
+    });
 
     
