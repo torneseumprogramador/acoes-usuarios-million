@@ -51,7 +51,7 @@ describe("AcoesUsuario", () => {
      done();
   })
 
-    it('alterou  o valor investido', async(done) => {
+    it('alterou  o valor investido e percentual ', async(done) => {
       let acao = await AcoesUsuario.create({
         codigo_usuario:"6546asd654a",
         codigo_acao: "Sab4",
