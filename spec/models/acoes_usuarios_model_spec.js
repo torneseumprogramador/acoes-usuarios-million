@@ -44,12 +44,18 @@ describe("AcoesUsuario", () => {
         done();
       })
     });
-  })
    
-   it('Foi criado',(done)=>{AcoesUsuario.create({codigo_usuario: "1",codigo_acao:"ZM007",valor_investido:45,percentual:15},(err,res)=>{
-     expect(err == undefined  || err == null).toBe(true)})
-     done();
-  })
+    it('Foi criado',(done)=>{
+      AcoesUsuario.create({
+        codigo_usuario: "1",
+        codigo_acao:"ZM007",
+        valor_investido:45,
+        percentual:15
+      },(err,res)=>{
+         expect(err == undefined  || err == null).toBe(true)
+      })
+    done();
+    })
 
     it('alterou  o valor investido e percentual ', async(done) => {
       let acao = await AcoesUsuario.create({
@@ -65,5 +71,85 @@ describe("AcoesUsuario", () => {
       expect(acao_alterada.valor_investido == 1550).toBe(true)
       done();
     });
-  
+
+
+    it('salvou o percentual e o valor investido apenas após a 18h', async(done) => {
+      let atual = new Date(Date.now());
+      var mercado_aberto = false;
+
+      let acao = await AcoesUsuario.create({
+        codigo_usuario:"sldjl654sdf",
+        codigo_acao: "LET3",
+        valor_investido: 5600,
+        percentual: 11
+      });
+
+      if (atual.getHours() >= 10 && atual.getHours() <= 18) {
+        mercado_aberto = true;
+        let acrescimo_percentual = (Math.random() * acao.percentual) < 0.5 ? (Math.random()*-1) : Math.random();
+        acao.percentual += acrescimo_percentual;
+        await acao.save();
+      }
+      else if (atual.getHours() > 18 && mercado_aberto == true) {
+        valor_somar = (acao.valor_investido * acao.percentual) / 100
+        acao.valor_investido += valor_somar;
+        acao.save();
+        mercado_aberto = false;
+      }
+      
+      if (atual.getHours() >= 10 && atual.getHours() <= 18) {
+        expect(acao.valor_investido == 5600).toBe(true);
+      }
+
+      else if (atual.getHours() > 18 && mercado_aberto == true) {
+        expect(acao.valor_investido != 5600).toBe(true);
+      }
+
+      else if (atual.getHours() > 18 && atual.getHours() < 10 && mercado_aberto == false) {
+        expect(acao.valor_investido == 5600).toBe(true);
+      }
+
+      done();
+    });
+
+
+    it('alterou o rendimento percentual apenas após as 10h e antes das 18h', async(done) => {
+      let atual = new Date(Date.now());
+      var mercado_aberto = false;
+
+      let acao = await AcoesUsuario.create({
+        codigo_usuario:"4df465g465",
+        codigo_acao: "LET4",
+        valor_investido: 5600,
+        percentual: 11
+      });
+
+      if (atual.getHours() >= 10 && atual.getHours() <= 18) {
+        mercado_aberto = true;
+        let acrescimo_percentual = (Math.random() * acao.percentual) < 0.5 ? (Math.random()*-1) : Math.random();
+        acao.percentual += acrescimo_percentual;
+        await acao.save();
+      }
+      else if (atual.getHours() > 18 && mercado_aberto == true) {
+        valor_somar = (acao.valor_investido * acao.percentual) / 100
+        acao.valor_investido += valor_somar;
+        acao.save();
+        mercado_aberto = false;
+      }
+      
+      if (atual.getHours() >= 10 && atual.getHours() <= 18) {
+        expect(acao.percentual != 11).toBe(true);
+      }
+
+      else if (atual.getHours() > 18 && mercado_aberto == true) {
+        expect(acao.percentual == 11).toBe(true);
+      }
+
+      else if (atual.getHours() > 18 && atual.getHours() < 10 && mercado_aberto == false) {
+        expect(acao.percentual == 11).toBe(true);
+      }
+
+      done();
+    });  
+  })
 })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
