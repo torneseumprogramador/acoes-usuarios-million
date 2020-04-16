@@ -59,6 +59,10 @@ AcoesUsuario.calculaValorInvestido = async() => {
         let acrescimo_percentual = (Math.random() * acao.percentual) < 0.5 ? (Math.random()*-1) : Math.random();
         acao.percentual += acrescimo_percentual;
         await acao.save();
+        console.log("========================");
+        console.log(acao.codigo_acao);
+        console.log(acao.percentual);
+        console.log("========================");
       })
     })
   }
