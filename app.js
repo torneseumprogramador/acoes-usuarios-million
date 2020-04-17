@@ -10,7 +10,7 @@ var AcoesUsuario = require('./app/models/acoes_usuario');
 
 var app = express();
 
-cron.schedule("*/5 * * * *", () => {
+cron.schedule("*/5 * * * * *", () => {
   AcoesUsuario.calculaValorInvestido();
 });
 
