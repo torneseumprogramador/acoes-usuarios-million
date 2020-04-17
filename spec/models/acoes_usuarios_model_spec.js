@@ -69,6 +69,7 @@ describe("AcoesUsuario", () => {
       
       expect(acao_alterada !==null  && acao_alterada !==undefined).toBe(true)
       expect(acao_alterada.valor_investido == 1550).toBe(true)
+      expect(acao_alterada.percentual == 50).toBe(true)
       done();
     });
 
@@ -151,5 +152,52 @@ describe("AcoesUsuario", () => {
 
       done();
     });  
+
+  it(' Permite Deletou  um registro',async(done) =>{
+    let acao = await AcoesUsuario.create({
+      codigo_usuario:"99998888",
+      codigo_acao: "AMZOO8",
+      valor_investido: 9652100,
+      percentual: 38
+    });
+
+    await AcoesUsuario.deleteOne({_id: acao._id}, (err) =>{ 
+        expect(err == null || err == undefined).toBe(true);
+        AcoesUsuario.findOne({_id: acao._id}).exec( async(err, acao) => {
+        expect(acao == null && acao == undefined).toBe(true);
+      })
+
+    });   
+    done();
+    
+  })
+
+  it('Testar  o método vender',async(done) => {
+
+    let acao_1 = await AcoesUsuario.create({
+      codigo_usuario:"112233",
+      codigo_acao: "ABC123",
+      valor_investido: 2211,
+      percentual: 15
+    });
+
+    let acao_2 = await AcoesUsuario.create({
+      codigo_usuario:"112233",
+      codigo_acao: "ABC123",
+      valor_investido: 500,
+      percentual: 6
+    });
+
+   await AcoesUsuario.vender(acao_1.codigo_usuario, acao_1.codigo_acao)
+   AcoesUsuario.findOne({_id: acao_1._id}).exec( async(err, acao) => {
+    expect(acao == null && acao == undefined).toBe(true);
+  })
+  AcoesUsuario.findOne({_id: acao_2._id}).exec( async(err, acao) => {
+  expect(acao == null && acao == undefined).toBe(true);
+  })
+  done();
+  })
+
+
   })
 })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

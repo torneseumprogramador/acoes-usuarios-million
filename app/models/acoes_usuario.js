@@ -80,13 +80,26 @@ AcoesUsuario.calculaValorInvestido = async() => {
 
 AcoesUsuario.valorInvestidoPorAcao = async(usuario_id, codigo_acao) => {
   var total = 0;
-  await AcoesUsuario.find({codigo_usuario: usuario_id, codigo_acao: codigo_acao}).then( acoes => {
-    acoes.forEach((acao) => {
-      total += acao.valor_investido
-    })
+    await AcoesUsuario.find({codigo_usuario: usuario_id, codigo_acao: codigo_acao}).then( acoes => {
+      acoes.forEach((acao) => {
+        total += acao.valor_investido
+      })
   })
 
   return {total: total, acao: codigo_acao};
+}
+
+
+AcoesUsuario.vender = async(cod_usuario, cod_acao) => {
+  try{
+    await AcoesUsuario.deleteMany({codigo_usuario: cod_usuario, codigo_acao: cod_acao})
+
+  }
+  catch(err){
+    return err;
+  }
+ 
+
 }
 
 module.exports = AcoesUsuario
